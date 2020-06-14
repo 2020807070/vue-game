@@ -1,17 +1,70 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width,initial-scale=1.0">
-    <link rel="icon" href="<%= BASE_URL %>favicon.ico">
-    <title><%= htmlWebpackPlugin.options.title %></title>
-  </head>
-  <body>
-    <noscript>
-      <strong>We're sorry but <%= htmlWebpackPlugin.options.title %> doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
-    </noscript>
-    <div id="app"></div>
-    <!-- built files will be auto injected -->
-  </body>
-</html>
+ <html lang="en">
+   <head>
+     <meta charset="utf-8">
+     <!-- 优先使用 IE 最新版本和 Chrome -->
+     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+     <!-- 页面描述 -->
+     <meta name="description" content="<%= htmlWebpackPlugin.options.desc %>"/>
+     <!-- 页面关键词 -->
+     <meta name="keywords" content="<%= htmlWebpackPlugin.options.keyword %>"/>
+     <!-- 为移动设备添加 viewport -->
+     <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1, user-scalable=no">
+     <!-- 启用360浏览器的极速模式(webkit) -->
+     <meta name="renderer" content="webkit">
+     <!-- 忽略页面中的数字识别为电话，忽略email识别 -->
+     <meta name="format-detection" content="telphone=no,email=no,address=no"/>
+     <!-- 是否启用 WebApp 全屏模式，删除苹果默认的工具栏和菜单栏 -->
+     <meta name="apple-mobile-web-app-capable" content="yes"/>
+     <meta http-equiv="x-dns-prefetch-control" content="on">
+     <link rel="dns-prefetch" href="//open.mobile.qq.com">
+     <link rel="dns-prefetch" href="//pingjs.qq.com">
+     <link rel="dns-prefetch" href="//qnlite.gtimg.com">
+     <link rel="preconnect" href="//qnlite.gtimg.com">
+     <link rel="preconnect" href="//open.mobile.qq.com">
+     <link rel="preconnect" href="//pingjs.qq.com">
+     <!-- 添加 favicon icon -->
+     <link rel="icon" href="<%= BASE_URL %>logo.png">
+     <title><%= htmlWebpackPlugin.options.title %></title>
+     <!-- 根元素font-size值 -->
+     <script type="text/javascript">
+       !function () {
+         var count = 0;
+         /*
+           # 按照宽高比例设定html字体
+           # 说明：
+             - baseWidth是设计稿尺寸
+             - baseFontSize是750设计稿下html的fontsize
+             - 按照当前屏幕宽高比跟设计稿宽高比较小的值作为缩放比例
+         */
+         function setHtmlFontSize(callback) {
+           var baseWidth = 750, baseHeight = 1334, baseFontSize = 40, newSize = 40, scale = 1;
+           //如果此时屏幕宽度不准确，就尝试再次获取分辨率，只尝试10次，否则使用innerWidth计算
+           if ((document.documentElement.clientWidth !== window.innerWidth ||
+             (document.documentElement.clientWidth === 0 && window.innerWidth === 0)) && count < 10) {
+             document.documentElement.style.opacity = 0;
+             window.setTimeout(setHtmlFontSize, 0);
+             count++;
+           } else {
+             document.documentElement.style.opacity = 0;
+             // 使用settimeout防止Android机有时候加载时获取不到window.innerWidth的值的情况
+             setTimeout(function () {
+               var width = window.innerWidth > 500 ? 500 : window.innerWidth;
+               scale = width / baseWidth,
+               newSize = parseInt(scale * 10000 * baseFontSize) / 10000;
+               document.documentElement.style.opacity = 1;
+               document.documentElement.style.fontSize = newSize + "px";
+             }, 0);
+           }
+         }
+         setHtmlFontSize();
+       }();
+     </script>
+   </head>
+   <body>
+     <!-- 页面主模块 -->
+     <div id="app"></div>
+   </body>
+ </html>
+ <script src="https://cdn.bootcss.com/vConsole/3.2.2/vconsole.min.js"></script>
+<script>var vConsole = new VConsole();</script>
