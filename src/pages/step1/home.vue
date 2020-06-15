@@ -1,6 +1,6 @@
 <template>
   <div class="wrapper">
-    <div class="home">
+    <div class="home" v-swipeup="(e)=>vueTouch('上滑',e)">
       <div class="home-banner" @click="next"></div>
       <div class="home-ntron">
         <div class="home-content">
@@ -16,6 +16,7 @@
 </template>
 
 <script>
+// import { vueTouch } from  './touch.js';
 import 'swiper/css/swiper.css'
 export default {
   data () {
@@ -23,11 +24,14 @@ export default {
     }
   },
   mounted () {
-    window.onscroll = () => {
-      console.log(123);
-    }
+    // window.onscroll = () => {
+    //   this.next();
+    // }
   },
   methods: {
+    vueTouch () {
+      this.next();
+    },
     next () {
       this.$router.replace('/rain')
     }
@@ -54,6 +58,7 @@ export default {
     background-image: url(./img/banner.png);
     height: px2rem(175, 20);
     background-size: contain;
+    background-position: 50% 50%;
   }
   &-ntron {
     @extend .center;

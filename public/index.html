@@ -26,6 +26,8 @@
      <!-- 添加 favicon icon -->
      <link rel="icon" href="<%= BASE_URL %>logo.png">
      <title><%= htmlWebpackPlugin.options.title %></title>
+     <script src="https://cdnjs.cloudflare.com/ajax/libs/tween.js/17.1.1/Tween.min.js"></script>
+
      <!-- 根元素font-size值 -->
      <script type="text/javascript">
        !function () {
@@ -65,6 +67,9 @@
      <!-- 页面主模块 -->
      <div id="app"></div>
    </body>
+   <audio src="https://mat1.gtimg.com/bbs/static/wx-dingdong.mp3" preload="auto" id="homeBGM"></audio>
+   <audio src="http://mat1.gtimg.com/bbs/assets/music/bgm/rainBGM.mp3" preload="auto" id="rainBGM"></audio>
  </html>
+ 
  <script src="https://cdn.bootcss.com/vConsole/3.2.2/vconsole.min.js"></script>
 <script>var vConsole = new VConsole();</script>

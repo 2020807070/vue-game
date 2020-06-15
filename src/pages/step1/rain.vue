@@ -1,9 +1,10 @@
 <template>
-  <div class="wrapper rain">
-    <div class="scrollWrapper" :style="`transform: translateY(${scrollTop}px);`"
+  <div class="wrapper rain" >
+    <div class="scrollWrapper" :style="`transform: translate3d(0, ${scrollTop}px, 0);transition-duration: 0ms;`"
       @touchstart="touchstart"
       @touchmove="touchmove"
-      @touchend="touchend">
+      @touchend="touchend"
+      >
       <div class="content c1">风</div>
       <div class="content">还有雨……</div>
       <div class="move-wrapepr" @click="next">
@@ -13,6 +14,10 @@
       <div class="content">这八年里，共产党在全国农村已经建立起十几块革命根据地。其中最大的一块就是这里——</div>
       <div class="move-wrapepr" @click="next">
         <div class="move-container move-container__map" :style="`background-position: ${mapMovePostionX}px ${mapMovePostionY}px;`"
+          v-swipeleft="(e)=>swipeleft('左滑',e)"
+          v-swiperight="(e)=>swiperight('右滑',e)"
+          v-swipeup="(e)=>swipeup('上滑',e)"
+          v-swipedown="(e)=>swipedown('下滑',e)"
           @touchstart="maptouchstart"
           @touchmove="maptouchmove"
           @touchend="maptouchend"></div>
@@ -26,9 +31,23 @@
 </template>
 
 <script>
+import Vue from 'vue';
+import VIscroll from 'viscroll';
+
+// 可以在use的时候设置iscroll的参数
+Vue.use(VIscroll, {
+    mouseWheel: true,
+    click: false,
+    preventDefault: true,
+    tap: false,
+    bounce: false,
+    disableTouch: true
+});
+
 export default {
   data () {
     return {
+      up: 0,
       baseHeight: 80,
       rainMoveTop: 0,
       rainMovePostion: 0,
@@ -48,19 +67,27 @@ export default {
     }
   },
   mounted () {
+    // const myScroll = new IScroll('#wrapper');
+    this.$rainBGM = document.querySelector('#rainBGM');
+    // console.log(this.$rainBGM.load());
+    this.$rainBGM.play();
     this.rainMoveTop = document.querySelectorAll('.move-container')[0].offsetTop;
     this.mapMoveTop = document.querySelectorAll('.move-container')[1].offsetTop;
+
+
+    this.$rainBGM.play();
   },
   methods: {
     touchstart (e) {
-      const { clientX, clientY} = e.touches[0];
+      const { clientX, clientY} = e.touches[1] || e.touches[0];
       this.start = {
         clientX,
         clientY
       }
     },
     touchmove (e) {
-      const { clientY } = e.touches[0];
+      // console.log(e.touches);
+      const { clientY } = e.touches[1] || e.touches[0];
       this.scrollTop = clientY - this.start.clientY + this.lastEnd;
       if (this.scrollTop > 10)  this.scrollTop = 8;
       this.checkMoveOver();
@@ -80,16 +107,35 @@ export default {
       } else this.mapMovePostionY = 0;
     },
     maptouchstart (e) {
-      const { clientX } = e.touches[0];
-      this.map = { clientX };
+      const { clientX, clientY } = e.touches[0];
+      this.map = { clientX, clientY };
     },
     maptouchmove (e) {
-      e.stopPropagation();
-      console.log(this.map.clientX - e.touches[0].clientX);
-      this.mapMovePostionX = -(this.map.clientX - e.touches[0].clientX);
+      console.log(Math.abs(this.map.clientX - e.touches[0].clientX), Math.abs(this.map.clientY - e.touches[0].clientY));
+      if (Math.abs(this.map.clientX - e.touches[0].clientX) > Math.abs(this.map.clientY - e.touches[0].clientY)){
+        e.stopPropagation();
+        this.mapMovePostionX = -(this.map.clientX - e.touches[0].clientX);
+      }
+      // console.log(e.touches);
+      // console.log(this.map.clientX - e.touches[0].clientX);
+      // if (this.up === 1) {
+
+      // }
     },
     maptouchend (e) {
       console.log(e);
+    },
+    swipeleft () {
+      this.up = 1;
+    },
+    swiperight () {
+      this.up = 1;
+    },
+    swipeup () {
+      this.up = 2;
+    },
+    swipedown () {
+      this.up = 2;
     },
   }
 }
@@ -131,13 +177,13 @@ export default {
 }
 .move-wrapepr {
   overflow: hidden;
+  width: 100%;
   height: px2rem(320 , 20);
-  margin: px2rem(30, 20);
+  margin: px2rem(30, 20) 0;
 }
 
 
 .move-container {
-  animation: zoom 10s infinite;
   width: 100%;
   height: 100%;
   background-size: cover;

@@ -1,10 +1,10 @@
 import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
-import VueAwesomeSwiper from 'vue-awesome-swiper'
+import vueTouch from 'kim-vue-touch'
 
+Vue.use(vueTouch)
 Vue.config.productionTip = false
-Vue.use(VueAwesomeSwiper, /* { default options with global component } */)
 
 new Vue({
   router,
