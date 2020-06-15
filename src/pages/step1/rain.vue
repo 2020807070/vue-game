@@ -7,12 +7,12 @@
       >
       <div class="content c1">风</div>
       <div class="content">还有雨……</div>
-      <div class="move-wrapepr" @click="next">
+      <div class="move-wrapepr">
         <div class="move-container move-container__rain" :style="`background-position: center ${rainMovePostion}px;`"></div>
       </div>
       <div class="content">从<span>大革命</span>失败，共产党人起义反对蒋介石，到现在已经八年了。</div>
       <div class="content">这八年里，共产党在全国农村已经建立起十几块革命根据地。其中最大的一块就是这里——</div>
-      <div class="move-wrapepr" @click="next">
+      <div class="move-wrapepr">
         <div class="move-container move-container__map" :style="`background-position: ${mapMovePostionX}px ${mapMovePostionY}px;`"
           @touchstart="maptouchstart"
           @touchmove="maptouchmove"
@@ -21,7 +21,9 @@
       <div class="title">中央苏区</div>
       <div class="content">我是中央苏区中一名普通的红军战士，同大部分战士一样，我们以为自己会一直保卫着这里。</div>
       <div class="content">不过，后来的事情出乎我们的意料——</div>
-      <div class="zhengfu"></div>
+      <div class="zhengfu" :style="`filter: grayscale(${grayscale}%);`">
+        <img src="./img/temporary.jpg" alt="">
+      </div>
       <br>
       <br>
       <br>
@@ -47,7 +49,7 @@
       <br>
       <div class="content">那是1934年的初春，还是寒风呼号的时节，江西的红土地上就像雨后春笋般冒出成千上万个怪物来。这是蒋介石采用的赛克特建议，实行堡垒政策，建造了各种各样的碉堡，将中央苏区团团围住。</div>
       <br>
-      <div class="move-wrapepr" @click="next">
+      <div class="move-wrapepr">
         <div class="move-container move-container__map2" :style="`background-position: ${map2MovePostionX}px ${map2MovePostionY}px;`"
           @touchstart="maptouchstart"
           @touchmove="maptouchmove"
@@ -61,18 +63,6 @@
 </template>
 
 <script>
-import Vue from 'vue';
-import VIscroll from 'viscroll';
-
-// 可以在use的时候设置iscroll的参数
-Vue.use(VIscroll, {
-    mouseWheel: true,
-    click: false,
-    preventDefault: true,
-    tap: false,
-    bounce: false,
-    disableTouch: true
-});
 
 export default {
   data () {
@@ -86,6 +76,8 @@ export default {
       mapMovePostionY: 0,
       map2MovePostionX: 0,
       map2MovePostionY: 0,
+      zfMoveTop: 0,
+      grayscale: 100,
       start: {
         clientX: 0,
         clientY: 0
@@ -107,8 +99,7 @@ export default {
     this.$rainBGM.play();
     this.rainMoveTop = document.querySelectorAll('.move-container')[0].offsetTop;
     this.mapMoveTop = document.querySelectorAll('.move-container')[1].offsetTop;
-
-
+    this.zfMoveTop = document.querySelector('.zhengfu').offsetTop;
     this.$rainBGM.play();
   },
   methods: {
@@ -133,19 +124,28 @@ export default {
       this.$router.replace('/home');
     },
     checkMoveOver () {
-      if(Math.abs(this.scrollTop) >= this.rainMoveTop + this.baseHeight) {
-        this.rainMovePostion = Math.abs(this.scrollTop) - this.rainMoveTop - this.baseHeight;
+      const scrollTop = Math.abs(this.scrollTop);
+      if(scrollTop >= this.rainMoveTop + this.baseHeight) {
+        this.rainMovePostion = scrollTop - this.rainMoveTop - this.baseHeight;
       } else this.rainMovePostion = 0;
-      if(Math.abs(this.scrollTop) >= this.mapMoveTop + this.baseHeight) {
-        this.mapMovePostionY = Math.abs(this.scrollTop) - this.mapMoveTop - this.baseHeight;
+      if(scrollTop >= this.mapMoveTop + this.baseHeight) {
+        this.mapMovePostionY = scrollTop - this.mapMoveTop - this.baseHeight;
       } else this.mapMovePostionY = 0;
+      const zfBengin = this.zfMoveTop - 266;
+      const zfEnd = this.zfMoveTop;
+      if (zfBengin < scrollTop &&  scrollTop < zfEnd) {
+        this.grayscale -= (zfEnd - zfBengin) / 100;
+        // console.log(scrollTop, (zfEnd - zfBengin) / 100);
+        console.log((scrollTop - zfBengin) /2.66);
+        this.grayscale = 100- [(scrollTop - zfBengin) /2.66];
+      }
     },
     maptouchstart (e) {
       const { clientX, clientY } = e.touches[0];
       this.map = { clientX, clientY };
     },
     maptouchmove (e) {
-      console.log(Math.abs(this.map.clientX - e.touches[0].clientX), Math.abs(this.map.clientY - e.touches[0].clientY));
+      // console.log(Math.abs(this.map.clientX - e.touches[0].clientX), Math.abs(this.map.clientY - e.touches[0].clientY));
       if (Math.abs(this.map.clientX - e.touches[0].clientX) > Math.abs(this.map.clientY - e.touches[0].clientY)){
         e.stopPropagation();
         this.mapMovePostionX = -(this.map.clientX - e.touches[0].clientX) + this.mapLastEnd;
@@ -235,8 +235,14 @@ export default {
 }
 
 .zhengfu {
-  height: px2rem(211, 20);
-  background-size: cover;
-  background-image: url(./img/zf.jpg);
+  img {
+    height: px2rem(251, 20);
+    // -webkit-filter: grayscale(100%);
+    // -moz-filter: grayscale(100%);
+    // -ms-filter: grayscale(100%);
+    // -o-filter: grayscale(100%);
+    
+    filter: gray;
+  }
 }
 </style>
