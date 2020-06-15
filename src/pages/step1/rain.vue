@@ -14,17 +14,47 @@
       <div class="content">这八年里，共产党在全国农村已经建立起十几块革命根据地。其中最大的一块就是这里——</div>
       <div class="move-wrapepr" @click="next">
         <div class="move-container move-container__map" :style="`background-position: ${mapMovePostionX}px ${mapMovePostionY}px;`"
-          v-swipeleft="(e)=>swipeleft('左滑',e)"
-          v-swiperight="(e)=>swiperight('右滑',e)"
-          v-swipeup="(e)=>swipeup('上滑',e)"
-          v-swipedown="(e)=>swipedown('下滑',e)"
           @touchstart="maptouchstart"
           @touchmove="maptouchmove"
           @touchend="maptouchend"></div>
       </div>
       <div class="title">中央苏区</div>
+      <div class="content">我是中央苏区中一名普通的红军战士，同大部分战士一样，我们以为自己会一直保卫着这里。</div>
+      <div class="content">不过，后来的事情出乎我们的意料——</div>
+      <div class="zhengfu"></div>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <div class="content">我们将要走很长很长的路，</div>
+      <div class="content">然后再回到这梦想开始的地方！</div>
+      <br>
+      <div class="content">那是1934年的初春，还是寒风呼号的时节，江西的红土地上就像雨后春笋般冒出成千上万个怪物来。这是蒋介石采用的赛克特建议，实行堡垒政策，建造了各种各样的碉堡，将中央苏区团团围住。</div>
+      <br>
+      <div class="move-wrapepr" @click="next">
+        <div class="move-container move-container__map2" :style="`background-position: ${map2MovePostionX}px ${map2MovePostionY}px;`"
+          @touchstart="maptouchstart"
+          @touchmove="maptouchmove"
+          @touchend="maptouchend"></div>
+      </div>
       <div class="content">
-        我是中央苏区中一名普通的红军战士，同大部分战士一样，我们以为自己会一直保卫着这里。不过，后来的事情出乎我们的意料——
+        到了10月，我们同许多其他地方的部队都逐渐集结到于都附近，每个人都发了一件崭新的灰色棉上衣，除了枪支弹药，四十排子弹，还有三四个手榴弹，两三双草鞋，几斤口粮。这是以前从来没有过的阵仗，战士们既兴奋又纳闷，为什么一下发这么多东西呢？
       </div>
     </div>
   </div>
@@ -54,6 +84,8 @@ export default {
       mapMoveTop: 0,
       mapMovePostionX: 0, // -80
       mapMovePostionY: 0,
+      map2MovePostionX: 0,
+      map2MovePostionY: 0,
       start: {
         clientX: 0,
         clientY: 0
@@ -64,6 +96,8 @@ export default {
       },
       scrollTop: 0,
       lastEnd: 0,
+      mapLastEnd: 0,
+      
     }
   },
   mounted () {
@@ -114,28 +148,12 @@ export default {
       console.log(Math.abs(this.map.clientX - e.touches[0].clientX), Math.abs(this.map.clientY - e.touches[0].clientY));
       if (Math.abs(this.map.clientX - e.touches[0].clientX) > Math.abs(this.map.clientY - e.touches[0].clientY)){
         e.stopPropagation();
-        this.mapMovePostionX = -(this.map.clientX - e.touches[0].clientX);
+        this.mapMovePostionX = -(this.map.clientX - e.touches[0].clientX) + this.mapLastEnd;
       }
-      // console.log(e.touches);
-      // console.log(this.map.clientX - e.touches[0].clientX);
-      // if (this.up === 1) {
-
-      // }
     },
     maptouchend (e) {
       console.log(e);
-    },
-    swipeleft () {
-      this.up = 1;
-    },
-    swiperight () {
-      this.up = 1;
-    },
-    swipeup () {
-      this.up = 2;
-    },
-    swipedown () {
-      this.up = 2;
+      this.mapLastEnd = this.mapMovePostionX;
     },
   }
 }
@@ -195,6 +213,9 @@ export default {
   &__map {
     background-image: url(./img/map1.jpg);
   }
+  &__map2 {
+    background-image: url(./img/map2.jpg);
+  }
 }
 
 @keyframes zoom {
@@ -211,5 +232,11 @@ export default {
   height: px2rem(3000, 20);
   padding-bottom: 300px;
   background-size: contain;
+}
+
+.zhengfu {
+  height: px2rem(211, 20);
+  background-size: cover;
+  background-image: url(./img/zf.jpg);
 }
 </style>
