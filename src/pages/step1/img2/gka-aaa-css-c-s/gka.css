@@ -1,0 +1,86 @@
+.gka-wrap {
+    width: 398px;
+    height: 654px;
+}
+
+.animation {
+    width: 56px;
+    height: 302px;
+    background-image: url("./img/sprites.png");
+    background-size: 1311px 616px;
+    transform: translate(178px, 332px);
+    background-repeat: no-repeat;
+    animation-name: keyframes-aaa;
+    animation-duration: 0.9s;
+    animation-delay: 0s;
+    animation-iteration-count: infinite;
+    animation-fill-mode: forwards;
+    animation-timing-function: steps(1);
+}
+
+@keyframes keyframes-aaa {
+    0% {
+        width: 56px;
+        height: 302px;
+        background-image: url("./img/sprites.png");
+        background-size: 1311px 616px;
+        transform: translate(178px, 332px);
+    }
+
+    11.11% {
+        width: 57px;
+        height: 303px;
+        background-position: -56px 0px;
+        transform: translate(177px, 331px);
+    }
+
+    22.22% {
+        width: 55px;
+        height: 300px;
+        background-position: -113px 0px;
+        transform: translate(179px, 334px);
+    }
+
+    33.33% {
+        width: 137px;
+        height: 388px;
+        background-position: -168px 0px;
+        transform: translate(133px, 246px);
+    }
+
+    44.44% {
+        width: 136px;
+        height: 404px;
+        background-position: -305px 0px;
+        transform: translate(133px, 230px);
+    }
+
+    55.56% {
+        width: 137px;
+        height: 429px;
+        background-position: -441px 0px;
+        transform: translate(133px, 205px);
+    }
+
+    66.67% {
+        width: 252px;
+        height: 593px;
+        background-position: -578px 0px;
+        transform: translate(62px, 41px);
+    }
+
+    77.78% {
+        width: 235px;
+        height: 614px;
+        background-position: -830px 0px;
+        transform: translate(79px, 20px);
+    }
+
+    88.89%,
+    100% {
+        width: 246px;
+        height: 616px;
+        background-position: -1065px 0px;
+        transform: translate(77px, 18px);
+    }
+}

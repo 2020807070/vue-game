@@ -21,28 +21,9 @@
       <div class="title">中央苏区</div>
       <div class="content">我是中央苏区中一名普通的红军战士，同大部分战士一样，我们以为自己会一直保卫着这里。</div>
       <div class="content">不过，后来的事情出乎我们的意料——</div>
-      <div class="zhengfu" :style="`filter: grayscale(${grayscale}%);`">
-        <img src="./img/temporary.jpg" alt="">
+      <div class="zhengfu">
+        <img src="./img/temporary.jpg" alt="" :style="`transform: translateZ(0px);filter: grayscale(${grayscale}%);`">
       </div>
-      <br>
-      <br>
-      <br>
-      <br>
-      <br>
-      <br>
-      <br>
-      <br>
-      <br>
-      <br>
-      <br>
-      <br>
-      <br>
-      <br>
-      <br>
-      <br>
-      <br>
-      <br>
-      <br>
       <br>
       <div class="content">我们将要走很长很长的路，</div>
       <div class="content">然后再回到这梦想开始的地方！</div>
@@ -58,6 +39,10 @@
       <div class="content">
         到了10月，我们同许多其他地方的部队都逐渐集结到于都附近，每个人都发了一件崭新的灰色棉上衣，除了枪支弹药，四十排子弹，还有三四个手榴弹，两三双草鞋，几斤口粮。这是以前从来没有过的阵仗，战士们既兴奋又纳闷，为什么一下发这么多东西呢？
       </div>
+
+      <div class="content">“做好准备，明日出发！”</div>
+      <div class="content">这样的命令，一连几天传来。</div>
+      <div class="content">我们时刻准备着，不敢大意，只是当时的我们还远不知道，人类文明的一个奇迹已经缓缓拉开了序幕……</div>
     </div>
   </div>
 </template>
